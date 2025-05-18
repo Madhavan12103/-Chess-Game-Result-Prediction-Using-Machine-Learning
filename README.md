@@ -1,4 +1,4 @@
-# ♟️ Chess Game Result Prediction Using Machine Learning
+   # ♟️ Chess Game Result Prediction Using Machine Learning
 
 This project uses machine learning to predict the result of a chess game (Win for White, Win for Black, or Draw) using data from real games played by top grandmasters. The project showcases end-to-end skills in data extraction, feature engineering, model training, evaluation, and deployment.
 
@@ -77,7 +77,7 @@ pip install -r requirements.txt
 - Include time control (Blitz, Bullet, Classical) as a feature.
 
 ## 🙋‍♂️ Author
-Madhavan 
+Madhavan  
 Aspiring Data Analyst | Machine Learning Enthusiast  
 📧 madhavan12j@gmail.com  
 
