@@ -17,13 +17,13 @@ This project uses machine learning to predict the result of a chess game (Win fo
 
 ## 📁 Project Structure
 
-├── data/                         # Contains all the PGN files for each grandmaster
-│   ├── Carlsen.pgn
-│   ├── Nakamura.pgn
-│   └── ... (other PGN files)
-├── chess_model_train.ipynb      # Main Colab notebook for training the model
-├── chess_master_model_pkl_file.zip  # Zipped trained model (.pkl)
-├── README.md                    # Project documentation
+├── data/                         # Contains all the PGN files for each grandmaster  
+│   ├── Carlsen.pgn  
+│   ├── Nakamura.pgn  
+│   └── ... (other PGN files)  
+├── chess_model_train.ipynb      # Main Colab notebook for training the model  
+├── chess_master_model_pkl_file.zip  # Zipped trained model (.pkl)  
+├── README.md                    # Project documentation  
 
 ## 📊 Features Used
 
