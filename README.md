@@ -61,20 +61,65 @@ Based on ~7000 games from 8 top GMs:
 
 ## 🛠️ Installation
 
-git clone https://github.com/yourusername/chess-result-prediction.git
-cd chess-result-prediction
+git clone https://github.com/yourusername/chess-result-prediction.git  
+cd chess-result-prediction  
 pip install -r requirements.txt
 
 ## ▶️ Usage
-- Run the notebook
-- jupyter notebook chess_model_train.ipynb
-- Then upload your .pgn file and get the predicted result.
+
+### 🧪 Option 1: Run Locally
+
+1. **Clone the repository**:
+   
+   -git clone https://github.com/Madhavan12103/-Chess-Game-Result-Prediction-Using-Machine-Learning.git
+   -cd -Chess-Game-Result-Prediction-Using-Machine-Learning
+2. **Install the required packages**:
+   -pip install -r requirements.txt
+
+3. **Run the Streamlit app**:
+   -streamlit run main.py
+
+4. **Use the app**:
+
+   * Upload a `.pgn` (Portable Game Notation) file of a chess match.
+   * The app will extract features and display the predicted result:
+
+     * 🟢 **White Win**
+     * ⚫ **Black Win**
+     * ⚪ **Draw**
+
+### 🌐 Option 2: Use the Web App
+
+You can try the app directly on Streamlit Cloud without downloading anything:
+
+🔗 [Click here to open the live app](https://pvyulhrityfrya6exqmrzp.streamlit.app/)
+
+1. Open the link.
+2. Upload your `.pgn` file.
+3. View the predicted result instantly.
+
+### 🧠 Option 3: Train the Model Yourself
+
+If you'd like to retrain the model:
+
+1. Open the Jupyter Notebook:
+   -jupyter notebook chess_model_train.ipynb
+   
+2. Follow the steps inside the notebook to:
+
+   * Load PGN files
+   * Extract features
+   * Train the model using Random Forest
+   * Save the model as `chess_master_model.pkl`
+
+3. Replace the existing `.pkl` file in your project directory if needed.
 
 ## 📥 How PGN Files Were Collected
-- Downloaded .pgn files from Lichess/Chess.com/official databases for each GM.
-- Cleaned using chess.pgn parser in Python.
-- ELOs and results were extracted from headers.
-- Missing ELOs filled with a fallback default (e.g., 1500).
+
+-PGN files downloaded from Lichess/Chess.com or public databases.
+-Parsed with chess.pgn in Python.
+-ELO ratings and outcomes extracted from headers.
+-Missing ELOs filled with default value (e.g., 1500).
 
 ## 📚 Future Work
 - Add ECO opening code as a feature.
