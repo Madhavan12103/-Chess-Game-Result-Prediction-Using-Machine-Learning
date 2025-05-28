@@ -19,7 +19,7 @@ model = joblib.load("chess_master_model.pkl")
 # 🎯 Streamlit App
 st.set_page_config(page_title="Chess PGN Predictor", page_icon="♟️")
 st.title("♟️ PGN Game Result Predictor")
-st.markdown("Upload a PGN file from a top player and see what the ML model predicts.")
+st.markdown("Upload a PGN file and see what the ML model predicts.")
 
 uploaded_file = st.file_uploader("Upload a PGN file", type=["pgn"])
 
