@@ -1,63 +1,40 @@
 import streamlit as st
 import chess.pgn
 import chess.svg
+from io import StringIO
 import streamlit.components.v1 as components
-import pandas as pd
-import io
-import joblib
-import zipfile
-import os
 
-# 🔓 Unzip model if not already extracted
-if not os.path.exists("chess_master_model.pkl"):
-    with zipfile.ZipFile("chess_master_model_pkl_file.zip", 'r') as zip_ref:
-        zip_ref.extractall()
+st.title("♟️ Chess Game Result Predictor with Board Visualization")
 
-# ✅ Load trained ML model
-model = joblib.load("chess_master_model.pkl")
+st.markdown("Upload a PGN file and view the game on a chessboard. You can use the slider to step through the moves.")
 
-# 🎯 Streamlit App
-st.set_page_config(page_title="Chess PGN Predictor", page_icon="♟️")
-st.title("♟️ PGN Game Result Predictor")
-st.markdown("Upload a PGN file and see what the ML model predicts.")
-
+# Upload the PGN file
 uploaded_file = st.file_uploader("Upload a PGN file", type=["pgn"])
-
 if uploaded_file:
-    # 🔍 Parse the PGN
-    pgn_text = io.StringIO(uploaded_file.getvalue().decode("utf-8"))
-    game = chess.pgn.read_game(pgn_text)
-
-    if game is None:
-        st.error("❌ Could not read game from PGN file.")
-    else:
+    # Read PGN
+    pgn = StringIO(uploaded_file.getvalue().decode("utf-8"))
+    game = chess.pgn.read_game(pgn)
+    
+    if game:
         board = game.board()
         moves = list(game.mainline_moves())
 
-        # 🧭 Display board slider
-        move_num = st.slider("Move Number", 0, len(moves), 0)
-        for move in moves[:move_num]:
-            board.push(move)
+        st.subheader("Game Details")
+        st.markdown(f"**White**: {game.headers.get('White', 'Unknown')}")
+        st.markdown(f"**Black**: {game.headers.get('Black', 'Unknown')}")
+        st.markdown(f"**Result**: {game.headers.get('Result', 'Unknown')}")
 
-        svg_image = chess.svg.board(board=board, size=400)
-        components.html(svg_image, height=500)
+        # Slider to move through the game
+        move_num = st.slider("Move number", 0, len(moves), 0)
 
-        # 📊 Extract metadata
-        white_elo = int(game.headers.get("WhiteElo", 1500))
-        black_elo = int(game.headers.get("BlackElo", 1500))
-        num_moves = len(moves)
+        # Play moves
+        for i in range(move_num):
+            board.push(moves[i])
 
-        st.markdown("### Game Info")
-        st.write(f"**White Elo**: {white_elo}")
-        st.write(f"**Black Elo**: {black_elo}")
-        st.write(f"**Number of Moves**: {num_moves}")
+        # Render board as SVG
+        board_svg = chess.svg.board(board=board, size=400)
+        components.html(board_svg, height=450)
 
-        # 🤖 Predict result
-        input_df = pd.DataFrame([{
-            "white_elo": white_elo,
-            "black_elo": black_elo,
-            "num_moves": num_moves
-        }])
-
-        prediction = model.predict(input_df)[0]
-        st.success(f"✅ Predicted Result: **{prediction}**")
+        st.success(f"Displayed move {move_num} of {len(moves)}")
+    else:
+        st.error("Could not parse the PGN file.")
