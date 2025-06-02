@@ -34,23 +34,10 @@ if uploaded_file:
         board = game.board()
         moves = list(game.mainline_moves())
 
-        # 🧭 Display board slider
-        move_num = st.slider("Move Number", 0, len(moves), 0)
-        for move in moves[:move_num]:
-            board.push(move)
-
-        svg_image = chess.svg.board(board=board, size=400)
-        components.html(svg_image, height=500)
-
         # 📊 Extract metadata
         white_elo = int(game.headers.get("WhiteElo", 1500))
         black_elo = int(game.headers.get("BlackElo", 1500))
         num_moves = len(moves)
-
-        st.markdown("### Game Info")
-        st.write(f"**White Elo**: {white_elo}")
-        st.write(f"**Black Elo**: {black_elo}")
-        st.write(f"**Number of Moves**: {num_moves}")
 
         # 🤖 Predict result
         input_df = pd.DataFrame([{
@@ -61,3 +48,22 @@ if uploaded_file:
 
         prediction = model.predict(input_df)[0]
         st.success(f"✅ Predicted Result: **{prediction}**")
+
+        st.markdown("### 📍 Visualize Game Moves")
+        move_num = st.slider("Select Move Number", 0, len(moves), len(moves), help="This move count is also used in prediction.")
+        preview_board = game.board()
+        for move in moves[:move_num]:
+            preview_board.push(move)
+
+        svg_image = chess.svg.board(board=preview_board, size=400)
+        components.html(svg_image, height=500)
+
+        if move_num == len(moves):
+            st.info("👆 The final board position used for prediction is shown above.")
+        else:
+            st.warning("⬆️ Move slider to the final position to view the state used for prediction.")
+
+        st.markdown("### ℹ️ Game Info")
+        st.write(f"**White Elo**: {white_elo}")
+        st.write(f"**Black Elo**: {black_elo}")
+        st.write(f"**Total Moves**: {num_moves}")
